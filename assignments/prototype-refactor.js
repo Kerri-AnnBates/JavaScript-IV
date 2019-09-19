@@ -7,46 +7,48 @@ Prototype Refactor
 2. Your goal is to refactor all of this code to use ES6 Classes. The console.log() statements should still return what is expected of them.
 */
 
-function GameObject(gameAttributes) {
-    this.createdAt = gameAttributes.createdAt;
-    this.name = gameAttributes.name;
-    this.dimensions = gameAttributes.dimensions;
-}
-
-GameObject.prototype.destroy = function () {
-    return `${this.name} was removed from the game.`;
+class GameObject {
+    constructor(gameAttributes) {
+        this.createdAt = gameAttributes.createdAt;
+        this.name = gameAttributes.name;
+        this.dimensions = gameAttributes.dimensions;
+    }
+    
+    destroy(){
+        return `${this.name} was removed from the game.`;
+    }
 }
 
 /*
   === CharacterStats ===
 */
 
-function CharacterStats(charAttr) {
-    GameObject.call(this, charAttr);
-    this.healthPoints = charAttr.healthPoints;
-}
+class CharacterStats extends GameObject {
+    constructor(charAttr) {
+        super(charAttr);
+        this.healthPoints = charAttr.healthPoints;
+    }
 
-CharacterStats.prototype = Object.create(GameObject.prototype);
-CharacterStats.prototype.takeDamage = function () {
-    return `${this.name} took damage.`;
+    takeDamage() {
+        return `${this.name} took damage.`;
+    }
 }
 
 /*
   === Humanoid (Having an appearance or character resembling that of a human.) ===
 */
 
-function Humanoid(humAttr) {
-    CharacterStats.call(this, humAttr);
+class Humanoid extends CharacterStats {
+    constructor(humAttr) {
+        super(humAttr);
+        this.team = humAttr.team;
+        this.weapons = humAttr.weapons;
+        this.language = humAttr.language;
+    }
 
-    this.team = humAttr.team;
-    this.weapons = humAttr.weapons;
-    this.language = humAttr.language;
-}
-
-Humanoid.prototype = Object.create(CharacterStats.prototype);
-
-Humanoid.prototype.greet = function () {
-    return `${this.name} offers a greeting in ${this.language}.`;
+    greet() {
+        return `${this.name} offers a greeting in ${this.language}.`;
+    }
 }
 
 /*
@@ -118,5 +120,3 @@ console.log(archer.language); // Elvish
 console.log(archer.greet()); // Lilith offers a greeting in Elvish.
 console.log(mage.takeDamage()); // Bruce took damage.
 console.log(swordsman.destroy()); // Sir Mustachio was removed from the game.
-
-*/
