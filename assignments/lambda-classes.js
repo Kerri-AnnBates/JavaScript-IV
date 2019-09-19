@@ -29,6 +29,30 @@ class Instructor extends Person {
     grade(student, subject) {
         return `${student.name} receives a perfect score on ${subject}.`;
     }
+    addOrSubtractGrade(student) {
+        let subOrAdd = Math.floor(Math.random() * 2);
+        let randomGrade = Math.floor(Math.random() * 100);
+        
+        this.executeRandomGrade(student, subOrAdd, randomGrade);
+
+        //Check to make sure grade is not over 100 or less than 0.
+        while (student.grade > 100 || student.grade < 0) {
+            subOrAdd = Math.floor(Math.random() * 2);
+            randomGrade = Math.floor(Math.random() * 100);
+            this.executeRandomGrade(student, subOrAdd, randomGrade);
+        }
+
+        return `New grade: ${student.grade}`;
+    }
+
+    executeRandomGrade(student, subOrAdd, randomGrade) {
+        if (subOrAdd) {
+            student.grade += randomGrade;
+        } else {
+            student.grade -= randomGrade;
+        }
+        return student.grade;
+    }
 }
 
 // Student class.
@@ -38,6 +62,7 @@ class Student extends Person {
         this.previousBackground = attributes.previousBackground;
         this.className = attributes.className;
         this.favSubjects = attributes.favSubjects;
+        this.grade = attributes.grade;
     }
 
     listsSubjects() {
@@ -50,6 +75,13 @@ class Student extends Person {
     }
     sprintChallenge(subject) {
         return `${this.name} has begun sprint challenge on ${subject}.`;
+    }
+    graduate() {
+        if(this.grade > 70) {
+            return `You have graduated!`;
+        } else {
+            return `Back to the drawing board...`
+        }
     }
 }
 
@@ -88,7 +120,8 @@ const student1 = new Student({
     age: 30,
     previousBackground: '2 year college',
     className: 'WEB24',
-    favSubjects: ['HTML', 'CSS', 'Javascript']
+    favSubjects: ['HTML', 'CSS', 'Javascript'],
+    grade: 90
 });
 
 console.log('-------- Student ---------');
@@ -128,3 +161,4 @@ console.log('-------- Project Manager ---------');
 console.log(pm.speak());
 console.log(pm.standUp('Web_24'));
 console.log(pm.debugsCode(student1, 'Javascript'));
+console.log(pm.addOrSubtractGrade(student1));
