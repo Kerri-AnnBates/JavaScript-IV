@@ -30,22 +30,21 @@ class Instructor extends Person {
         return `${student.name} receives a perfect score on ${subject}.`;
     }
     addOrSubtractGrade(student) {
-        let subOrAdd = Math.floor(Math.random() * 2);
-        let randomGrade = Math.floor(Math.random() * 100);
         
-        this.executeRandomGrade(student, subOrAdd, randomGrade);
+        this.executeRandomGrade(student);
 
         //Check to make sure grade is not over 100 or less than 0.
         while (student.grade > 100 || student.grade < 0) {
-            subOrAdd = Math.floor(Math.random() * 2);
-            randomGrade = Math.floor(Math.random() * 100);
-            this.executeRandomGrade(student, subOrAdd, randomGrade);
+            this.executeRandomGrade(student);
         }
 
         return `New grade: ${student.grade}`;
     }
 
-    executeRandomGrade(student, subOrAdd, randomGrade) {
+    executeRandomGrade(student) {
+        let subOrAdd = Math.floor(Math.random() * 2);
+        let randomGrade = Math.floor(Math.random() * 100);
+
         if (subOrAdd) {
             student.grade += randomGrade;
         } else {
